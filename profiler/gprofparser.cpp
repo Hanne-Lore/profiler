@@ -2,17 +2,18 @@
 
 #include "gprofparser.h"
 
-GprofParser::GprofParser(QString exePath)
+GprofParser::GprofParser(QString exeName, QString exePath)
 {
     functions = new std::vector<Function>();
-    this->exeName = exePath;
+    this->exeName = exeName;
+    this->exePath = exePath;
 }
 
 void GprofParser::parseGprofFlatOutput()
 {
     QString gprofCommand = "gprof --brief --no-demangle --no-graph " + exeName;
 
-    QString result = executeCommand(gprofCommand);
+    QString result = executeCommand(gprofCommand, exePath);
     qDebug()<<"------SIZE gprof res: "<<result;
     qDebug()<<"------SIZE gprof res: "<<result.length();
 
@@ -27,11 +28,19 @@ void GprofParser::parseGprofFlatOutput()
             foreach(line,lines){
                 Function f = parseLine(line, symTable);
 
-                if( f.isDefined())
+                if( f.isDefined()){
                     functions->push_back(f);
+                }
+            }
+
+            for(int i=0; i < functions->size(); i++){
+                Function f = functions->at(i);
+                qDebug()<<"*****  "<<f.percentage<<"% "<<f.selfSec<<"(self sec) ";
+                qDebug()<<f.calls <<"(calls) "<<f.selfSecCall<<"(selfsec call) "<<f.totSecCall<<"(totsec call) "<<f.addr2line;
             }
         }
     }
+    int i = 0;
 
 }
 
@@ -41,7 +50,7 @@ void GprofParser::parseGprofFlatOutput()
 std::map<QString, QString> GprofParser::getSymbolTableExecutable()
 {
     QString readelfCommand  = "readelf -Ws " + exeName;
-    QString result = executeCommand(readelfCommand);
+    QString result = executeCommand(readelfCommand, exePath);
 
     std::map<QString,QString> symTable;
     if(result != ""){
@@ -114,7 +123,7 @@ Function GprofParser::parseLine(QString line, std::map<QString,QString> symTable
 QString GprofParser::getAddrLine(QString addr)
 {
     QString addr2lineCommand = "addr2line -a " + addr + " -e " + exeName;
-    QString result = executeCommand(addr2lineCommand);
+    QString result = executeCommand(addr2lineCommand, exePath);
 
     if( result != ""){
 

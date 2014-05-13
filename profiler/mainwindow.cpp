@@ -40,7 +40,7 @@ void MainWindow::on_actionOpen_File_triggered()
 
         QString cmd = "readelf --debug-dump=decodedline "  + filename +
                       " | grep -v -E '(0x[0-9a-f]+)|(^File name)|(^$)|(^Decoded)' | sort | uniq | grep -o -P '.*(?=:(\\[\\+\\+\\])?$)'";
-        QString result = executeCommand(cmd);
+        QString result = executeCommand(cmd, exePath);
 
         if( result != ""){
 
@@ -87,6 +87,7 @@ void MainWindow::on_actionOpen_File_triggered()
             expandMainFunc(filename);
 
             this->exeName = filename;
+            this->exePath  = exe.absolutePath();
         }
     }
 }
@@ -136,7 +137,7 @@ void MainWindow::expandMainFunc(QString filepath)
 {
     QString main = executeCommand("readelf -Ws " + filepath +
                                   " | grep 'main$' | awk '{print $2}' | addr2line -e " +
-                                  filepath);
+                                  filepath, exePath);
     main.remove(main.length()-1,1);
     main = QDir::cleanPath(main);
     qDebug()<<"Main FUNC is: "<<main;
@@ -207,7 +208,7 @@ void MainWindow::openFile(QString name)
 
 void MainWindow::on_gprofButton_clicked()
 {
-    GprofParser parser(exeName);
+    GprofParser parser(exeName,exePath);
     if( this->exeName.size() > 0)
         parser.parseGprofFlatOutput();
     else

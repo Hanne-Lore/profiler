@@ -27,6 +27,7 @@ private:
     Ui::MainWindow *ui;
     QStandardItemModel *standardModel;
     QString exeName;
+    QString exePath;
 
     void setUpPath(QStandardItem *root, QString path);
     void expandMainFunc(QString filepath);
