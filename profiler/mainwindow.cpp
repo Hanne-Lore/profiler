@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "helpers.h"
+#include "gprofparser.h"
+
 #include <QFileDialog>
 #include <QMessageBox>
 #include <iostream>
@@ -19,6 +21,11 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+    /*
+     * gprof --brief --no-demangle --no-graph profiler > tempfile
+     * addr2line -a 0000000000405396 -e profiler
+     *
+     */
 }
 
 void MainWindow::on_actionOpen_File_triggered()
@@ -78,6 +85,8 @@ void MainWindow::on_actionOpen_File_triggered()
 
             //now expand view where entry point is
             expandMainFunc(filename);
+
+            this->exeName = filename;
         }
     }
 }
@@ -137,6 +146,7 @@ void MainWindow::expandMainFunc(QString filepath)
     QString dir;
     QModelIndex root = ui->treeView->model()->index(0,0);
 
+
     foreach(dir,dirs){
 
         QModelIndex tmp = getMatch(root,dir);
@@ -193,4 +203,13 @@ void MainWindow::openFile(QString name)
 
     this->ui->plainTextEdit->appendPlainText(content);
     ui->plainTextEdit->moveCursor(QTextCursor::Start);
+}
+
+void MainWindow::on_gprofButton_clicked()
+{
+    GprofParser parser(exeName);
+    if( this->exeName.size() > 0)
+        parser.parseGprofFlatOutput();
+    else
+        qDebug()<<"no file specified!";
 }

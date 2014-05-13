@@ -13,7 +13,6 @@
 #include <QtGui/QAction>
 #include <QtGui/QApplication>
 #include <QtGui/QButtonGroup>
-#include <QtGui/QCheckBox>
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QHeaderView>
 #include <QtGui/QMainWindow>
@@ -21,11 +20,9 @@
 #include <QtGui/QMenuBar>
 #include <QtGui/QPlainTextEdit>
 #include <QtGui/QPushButton>
-#include <QtGui/QRadioButton>
 #include <QtGui/QStatusBar>
 #include <QtGui/QToolBar>
 #include <QtGui/QTreeView>
-#include <QtGui/QVBoxLayout>
 #include <QtGui/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -39,17 +36,11 @@ public:
     QAction *actionOpen_File;
     QAction *actionOpen_Project;
     QWidget *centralWidget;
-    QWidget *verticalLayoutWidget;
-    QVBoxLayout *verticalLayout;
-    QHBoxLayout *horizontalLayout;
-    QCheckBox *checkBox_2;
-    QRadioButton *radioButton;
-    QCheckBox *checkBox;
-    QPushButton *pushButton;
     QWidget *horizontalLayoutWidget_2;
     QHBoxLayout *horizontalLayout_2;
     QTreeView *treeView;
     QPlainTextEdit *plainTextEdit;
+    QPushButton *gprofButton;
     QMenuBar *menuBar;
     QMenu *menuProfiler;
     QMenu *menuHelp;
@@ -74,40 +65,6 @@ public:
         actionOpen_Project->setObjectName(QString::fromUtf8("actionOpen_Project"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
-        verticalLayoutWidget = new QWidget(centralWidget);
-        verticalLayoutWidget->setObjectName(QString::fromUtf8("verticalLayoutWidget"));
-        verticalLayoutWidget->setGeometry(QRect(-1, -1, 601, 41));
-        verticalLayout = new QVBoxLayout(verticalLayoutWidget);
-        verticalLayout->setSpacing(6);
-        verticalLayout->setContentsMargins(11, 11, 11, 11);
-        verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
-        verticalLayout->setContentsMargins(0, 0, 0, 0);
-        horizontalLayout = new QHBoxLayout();
-        horizontalLayout->setSpacing(6);
-        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
-        checkBox_2 = new QCheckBox(verticalLayoutWidget);
-        checkBox_2->setObjectName(QString::fromUtf8("checkBox_2"));
-
-        horizontalLayout->addWidget(checkBox_2);
-
-        radioButton = new QRadioButton(verticalLayoutWidget);
-        radioButton->setObjectName(QString::fromUtf8("radioButton"));
-
-        horizontalLayout->addWidget(radioButton);
-
-        checkBox = new QCheckBox(verticalLayoutWidget);
-        checkBox->setObjectName(QString::fromUtf8("checkBox"));
-
-        horizontalLayout->addWidget(checkBox);
-
-        pushButton = new QPushButton(verticalLayoutWidget);
-        pushButton->setObjectName(QString::fromUtf8("pushButton"));
-
-        horizontalLayout->addWidget(pushButton);
-
-
-        verticalLayout->addLayout(horizontalLayout);
-
         horizontalLayoutWidget_2 = new QWidget(centralWidget);
         horizontalLayoutWidget_2->setObjectName(QString::fromUtf8("horizontalLayoutWidget_2"));
         horizontalLayoutWidget_2->setGeometry(QRect(0, 40, 241, 491));
@@ -125,6 +82,9 @@ public:
         plainTextEdit = new QPlainTextEdit(centralWidget);
         plainTextEdit->setObjectName(QString::fromUtf8("plainTextEdit"));
         plainTextEdit->setGeometry(QRect(240, 40, 581, 491));
+        gprofButton = new QPushButton(centralWidget);
+        gprofButton->setObjectName(QString::fromUtf8("gprofButton"));
+        gprofButton->setGeometry(QRect(20, 0, 97, 31));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
@@ -164,10 +124,7 @@ public:
         actionGprof->setText(QApplication::translate("MainWindow", "Gprof", 0, QApplication::UnicodeUTF8));
         actionOpen_File->setText(QApplication::translate("MainWindow", "Open Executable", 0, QApplication::UnicodeUTF8));
         actionOpen_Project->setText(QApplication::translate("MainWindow", "Open Project", 0, QApplication::UnicodeUTF8));
-        checkBox_2->setText(QApplication::translate("MainWindow", "CheckBox", 0, QApplication::UnicodeUTF8));
-        radioButton->setText(QApplication::translate("MainWindow", "RadioButton", 0, QApplication::UnicodeUTF8));
-        checkBox->setText(QApplication::translate("MainWindow", "CheckBox", 0, QApplication::UnicodeUTF8));
-        pushButton->setText(QApplication::translate("MainWindow", "PushButton", 0, QApplication::UnicodeUTF8));
+        gprofButton->setText(QApplication::translate("MainWindow", "gprof", 0, QApplication::UnicodeUTF8));
         menuProfiler->setTitle(QApplication::translate("MainWindow", "File", 0, QApplication::UnicodeUTF8));
         menuHelp->setTitle(QApplication::translate("MainWindow", "Help", 0, QApplication::UnicodeUTF8));
         menuOptions->setTitle(QApplication::translate("MainWindow", "Options", 0, QApplication::UnicodeUTF8));

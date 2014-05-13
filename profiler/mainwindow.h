@@ -21,9 +21,12 @@ private slots:
 
     void on_treeView_doubleClicked(const QModelIndex &index);
 
+    void on_gprofButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     QStandardItemModel *standardModel;
+    QString exeName;
 
     void setUpPath(QStandardItem *root, QString path);
     void expandMainFunc(QString filepath);
